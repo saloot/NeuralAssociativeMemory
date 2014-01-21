@@ -1,0 +1,16 @@
+{??? Undefined variable "com" or class
+"com.mathworks.jmi.ClassLoaderManager.getClassLoaderManager".
+
+Error in ==> javaclasspath>local_javapath at 132
+jloader = com.mathworks.jmi.ClassLoaderManager.getClassLoaderManager;
+
+Error in ==> javaclasspath at 68
+      p = local_javapath('-dynamic');
+
+Error in ==> javaaddpath at 69
+  javaclasspath( p, javaclasspath );
+
+Error in ==> clustered_neural at 39
+javaaddpath('/home1/amir/cluster/Common_Library/ganymed-ssh2-build250.jar');
+} 
+

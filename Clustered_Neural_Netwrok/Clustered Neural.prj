@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration target="target.mlapps" target-name="Package App" name="Clustered Neural" location="/home/amir/cluster/Clustered_Neural_Netwrok" file="/home/amir/cluster/Clustered_Neural_Netwrok/Clustered Neural.prj" build-checksum="1904365494">
+    <param.appname>Clustered Neural</param.appname>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.icon />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.products.name>
+      <item>MATLAB</item>
+    </param.products.name>
+    <param.products.id>
+      <item>1</item>
+    </param.products.id>
+    <param.products.version>
+      <item>8.0</item>
+    </param.products.version>
+    <param.platforms />
+    <param.output>${PROJECT_ROOT}/Clustered Neural.mlappinstall</param.output>
+    <param.guid>99af11bd-72d4-4f95-8b08-0a7219dbff8c</param.guid>
+    <unset>
+      <param.email />
+      <param.company />
+      <param.icon />
+      <param.description />
+      <param.screenshot />
+      <param.version />
+      <param.platforms />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/clustered_neural.m</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>/home1/amir/cluster/Common_Library/SSH/sshfrommatlab.m</file>
+      <file>/home1/amir/cluster/Common_Library/SSH/sshfrommatlabclose.m</file>
+      <file>/home1/amir/cluster/Common_Library/SSH/sshfrommatlabissue.m</file>
+    </fileset.depfun>
+    <fileset.resources />
+    <fileset.package />
+    <build-deliverables>
+      <file name="Clustered Neural.mlappinstall" location="/home/amir/cluster/Clustered_Neural_Netwrok" optional="false">/home/amir/cluster/Clustered_Neural_Netwrok/Clustered Neural.mlappinstall</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/matlab8</root>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.8.2-206.fc18.x86_64</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
+
