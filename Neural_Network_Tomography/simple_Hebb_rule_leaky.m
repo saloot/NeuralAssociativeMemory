@@ -109,16 +109,16 @@ end
 
 %===========================SAVE THE RESULTS===============================
 success_measure(1) = acc_ave/av_itr;
-success_measure(2) = err_ave/av_itr;    
+success_measure(2) = err_ave/av_itr;   
 % [p1_T,p2_T] = simple_hebb_rule_theory_leaky(n,p,q,T,theta,tau,avg_T_fire);
 % simple_hebb_rule_theory(n,p,q,T,theta,0);    
 % acc_theory(itr) =p1_T;    
 % err_theory(itr) = p2_T;
 
 if (B_LLR_flag)
-    fid = fopen(['Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'a+');        
+    fid = fopen(['Simulation_Results/Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'a+');        
 else
-    fid = fopen(['Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'a+');        
+    fid = fopen(['Simulation_Results/Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'a+');        
 end
 fprintf(fid, 'T \t %d \t theta \t %f \t p \t %f \t q \t %f \t tau \t %f \t BBLR_thr \t %f \t acc \t %f \t err \t %f \t',T,theta,p,q,tau,B_LLR_thr,success_measure(1),success_measure(2));
 fprintf(fid,'\n');
