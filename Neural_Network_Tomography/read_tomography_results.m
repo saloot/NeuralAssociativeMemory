@@ -12,12 +12,14 @@ n = 200;
 no_averaging_itrs = 30;
 
 p = 0.3;
-q = 0.108330;
+
 theta = 0.05;
 B_LLR_thr = 0;
 tau = 500000;
+q = .65*(1-1/tau)*theta/p;
 
 variable_parameter = 'no_samples';
+BP_flag = 1;
 %--------------------------------------------------------------------------
 
 %==========================================================================
@@ -26,10 +28,18 @@ variable_parameter = 'no_samples';
 %============================PROCESS THE RESULTS===========================
                    
 %-----------------------------Read Recall Results--------------------------
-if (B_LLR_flag)
-    fid = fopen(['Simulation_Results/Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+if (BP_flag)
+    if (B_LLR_flag)
+        fid = fopen(['Simulation_Results/Belief_LLR_leaky_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    else
+        fid = fopen(['Simulation_Results/Belief_LLR_leaky_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    end
 else
-    fid = fopen(['Simulation_Results/Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    if (B_LLR_flag)
+        fid = fopen(['Simulation_Results/Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    else
+        fid = fopen(['Simulation_Results/Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    end
 end
 %  TdthetafpfqftaufBBLR_thrfaccferrf
 if (fid > -1)            

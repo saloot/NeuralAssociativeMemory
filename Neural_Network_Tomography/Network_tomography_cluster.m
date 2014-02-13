@@ -2,7 +2,7 @@
 %===========================INITIALIZATION=================================
 B_LLR_thr = 0;                  % the threshold usedin updating belief LLRs
 B_LLR_flag = 1;                 
-theta = 0.15;                   % update threshold  
+theta = 0.05;                   % update threshold  
 p = 0.3;                        % connection probability
 network_size = 200;             % number of neurons
 tau = 500000;                   % This is the rate according to which membrane potential drops
@@ -30,9 +30,13 @@ for itr = 1:length(parameter_range)
     no_samples = parameter_range(itr);       % number of sample recordings
     
     %--------------------Submit the Job to the Cluster---------------------    
+    
+%     command = ['cd /scratch/amir/Network_Tomography/Submit_Cluster;qsub -N "Net_tomo_',num2str(itr),...
+%         '" -v nn=',num2str(network_size),',T=',num2str(no_samples),',tau=',num2str(tau),',theta=',num2str(theta),...                                        
+%         ',p=',num2str(p),',q=',num2str(q),',E=',num2str(no_averaging_itrs),',B_LLR_thr=',num2str(B_LLR_thr),',B_LLR_flag=',num2str(B_LLR_flag),' net_tomography.pbs'];                                            
     command = ['cd /scratch/amir/Network_Tomography/Submit_Cluster;qsub -N "Net_tomo_',num2str(itr),...
-        'infer" -v nn=',num2str(network_size),',T=',num2str(no_samples),',tau=',num2str(tau),',theta=',num2str(theta),...                                        
-        ',p=',num2str(p),',q=',num2str(q),',E=',num2str(no_averaging_itrs),',B_LLR_thr=',num2str(B_LLR_thr),',B_LLR_flag=',num2str(B_LLR_flag),' net_tomography.pbs'];                                            
+        '" -v nn=',num2str(network_size),',T=',num2str(no_samples),',tau=',num2str(tau),',theta=',num2str(theta),...                                        
+        ',p=',num2str(p),',q=',num2str(q),',E=',num2str(no_averaging_itrs),',B_LLR_thr=',num2str(B_LLR_thr),',B_LLR_flag=',num2str(B_LLR_flag),' net_tomography_BP.pbs'];
     [channel, result]  =  sshfrommatlabissue(channel,command);                                                 
     %----------------------------------------------------------------------
                                 
