@@ -14,12 +14,13 @@ no_averaging_itrs = 30;
 p = 0.3;
 
 theta = 0.05;
-B_LLR_thr = 0;
-tau = 500000;
-q = .65*(1-1/tau)*theta/p;
+B_LLR_thr = -100000;
+tau = 5;
+q = .75*(1-1/tau)*theta/p;
 
 variable_parameter = 'no_samples';
 BP_flag = 1;
+inhib_flag = 1;
 %--------------------------------------------------------------------------
 
 %==========================================================================
@@ -28,22 +29,32 @@ BP_flag = 1;
 %============================PROCESS THE RESULTS===========================
                    
 %-----------------------------Read Recall Results--------------------------
-if (BP_flag)
-    if (B_LLR_flag)
-        fid = fopen(['Simulation_Results/Belief_LLR_leaky_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
-    else
-        fid = fopen(['Simulation_Results/Belief_LLR_leaky_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+if (inhib_flag)
+    if (BP_flag)
+        if (B_LLR_flag)
+            fid = fopen(['Simulation_Results/Belief_LLR_leaky_inhib_n_',num2str(n_exc),'_',num2str(n_inh),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        else
+            fid = fopen(['Simulation_Results/Belief_LLR_leaky_inhib_Delta_1_n_',num2str(n_exc),'_',num2str(n_inh),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        end
     end
 else
-    if (B_LLR_flag)
-        fid = fopen(['Simulation_Results/Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+    if (BP_flag)
+        if (B_LLR_flag)
+            fid = fopen(['Simulation_Results/Belief_LLR_leaky_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        else
+            fid = fopen(['Simulation_Results/Belief_LLR_leaky_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        end
     else
-        fid = fopen(['Simulation_Results/Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        if (B_LLR_flag)
+            fid = fopen(['Simulation_Results/Belief_LLR_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        else
+            fid = fopen(['Simulation_Results/Belief_LLR_Delta_1_n_',num2str(n),'_no_averaging_itrs_',num2str(no_averaging_itrs),'.txt'], 'r');
+        end
     end
 end
 %  TdthetafpfqftaufBBLR_thrfaccferrf
 if (fid > -1)            
-    results = fscanf(fid, '%s %d %s %f %s %f %s %f %s %f %s %f %s %f %s %f',[33,inf]);                
+    results = fscanf(fid, '%s %d %s %f %s %f %s %f %s %f %s %f %s %f %s %f %s %f',[48,inf]);
     fclose(fid);       
 else    
     error('Undefined input file!')   
@@ -57,8 +68,9 @@ unprocessed_p = results(10,:);
 unprocessed_q = results(12,:);
 unprocessed_tau = results(16,:);
 unprocessed_BLLR_thr = results(25,:);
-unprocessed_acc = results(29,:);
-unprocessed_err = results(33,:);
+unprocessed_acc_plus = results(34,:);
+unprocessed_acc_minus = results(44,:);
+unprocessed_err = results(48,:);
     
 
 
@@ -68,7 +80,8 @@ processed_theta = [];
 processed_p = [];    
 processed_q = [];
 processed_tau = [];
-processed_acc = [];
+processed_acc_plus = [];
+processed_acc_minus = [];
 processed_err = [];
 processed_count = [];
     
@@ -88,24 +101,29 @@ for i = 1:length(unprocessed_no_samples)
         
     if (processed_flag == 0)
         processed_no_samples = [processed_no_samples,unprocessed_no_samples(i)];            
-        processed_acc = [processed_acc,unprocessed_acc(i)];            
+        processed_acc_plus = [processed_acc_plus,unprocessed_acc_plus(i)];            
+        processed_acc_minus = [processed_acc_minus,unprocessed_acc_minus(i)];            
         processed_err = [processed_err,unprocessed_err(i)];            
         processed_count = [processed_count,1];                
     else        
-        processed_acc(j) = processed_acc(j) + unprocessed_acc(i);
+        processed_acc_plus(j) = processed_acc_plus(j) + unprocessed_acc_plus(i);
+        processed_acc_minus(j) = processed_acc_minus(j) + unprocessed_acc_minus(i);
         processed_err(j) = processed_err(j) + unprocessed_err(i);        
         processed_count(j) = processed_count(j) + 1;        
     end   
 end
 
-processed_acc = processed_acc./processed_count;
+processed_acc_plus = processed_acc_plus./processed_count;
+processed_acc_minus = processed_acc_minus./processed_count;
 processed_err = processed_err./processed_count;
 %----------------------------------------------------------------------                       
 
 %-----------------------Constructu the Legend------------------------------
-temp_leg = ['$n=',num2str(n),', E=',num2str(no_averaging_itrs),', p=',num2str(p),', q=',num2str(q),', \theta=',num2str(theta),', \tau=',num2str(tau),'$-Acc'];    
+temp_leg = ['$n=',num2str(n),', E=',num2str(no_averaging_itrs),', p=',num2str(p),', q=',num2str(q),', \theta=',num2str(theta),', \tau=',num2str(tau),'$-Acc+'];    
 figure_legend = [figure_legend;temp_leg];    
-temp_leg = ['$n=',num2str(n),', E=',num2str(no_averaging_itrs),', p=',num2str(p),', q=',num2str(q),', \theta=',num2str(theta),', \tau=',num2str(tau),'$-Err'];    
+temp_leg = ['$n=',num2str(n),', E=',num2str(no_averaging_itrs),', p=',num2str(p),', q=',num2str(q),', \theta=',num2str(theta),', \tau=',num2str(tau),'$-Acc-'];    
+figure_legend = [figure_legend;temp_leg];    
+temp_leg = ['$n=',num2str(n),', E=',num2str(no_averaging_itrs),', p=',num2str(p),', q=',num2str(q),', \theta=',num2str(theta),', \tau=',num2str(tau),'$-Err '];    
 figure_legend = [figure_legend;temp_leg];    
 %--------------------------------------------------------------------------
     
@@ -114,7 +132,9 @@ figure(h_error_PER);
 % plot(sort(processed_error_bits),sort(PER_tehroy_ave),'b','LineWidth',2);    
 [val,ind] = sort(processed_no_samples);
 
-plot(val,processed_acc(ind),'b','LineWidth',2);    
+plot(val,processed_acc_plus(ind),'b','LineWidth',2);    
+hold on
+plot(val,processed_acc_minus(ind),'b--','LineWidth',2);    
 hold on
 plot(val,processed_err(ind),'r','LineWidth',2);    
 hold on
