@@ -2,7 +2,7 @@ function G = erdos_reny_inhibitory(m,n_exc,n_inh,p)
 
 %-------------------------Vectorized Version-------------------------------
 G = (rand(m,n_exc)<p);
-G = [G,-(rand(m,n_inh)<p)];
+G = [G,-1*(rand(m,n_inh)<p)/1];
 %--------------------------------------------------------------------------
 
 if (m==n_exc+n_inh)
