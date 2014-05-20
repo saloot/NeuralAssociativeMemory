@@ -1,4 +1,4 @@
-function G = read_graph(ensmeble_count,mode,params)
+function G = read_graph(ensmeble_count,mode,params_in)
 
 %==============================INITIALIZATION==============================
 % ensmeble_count = 1;
@@ -129,16 +129,19 @@ G = [G_exc;G_inh];
 
 %=============================FEED FORWARD NETWORK=========================
 elseif (mode == 3)
+    params = params_in{1};
     n_f = params(1);
     n_o = params(2);
     n_inp = params(3);
     p1 = params(4);
     delay_1 = params(5);
-    
+
+    file_path = params_in{2};
     file_name_ending = ['n_f_',num2str(n_f),'_n_o_',num2str(n_o),'_n_inp_',num2str(n_inp),'_p1_',num2str(p1),'_d_',num2str(delay_1),'_',num2str(ensmeble_count)];
     
     %--------------Load the Excitatory to Others Connections---------------
-    fid = fopen(['../Neurons_data/graph/Wf_',file_name_ending,'.txt'],'r');
+    [file_path,'/Graphs/Wf_',file_name_ending,'.txt']
+    fid = fopen([file_path,'/Graphs/Wf_',file_name_ending,'.txt'],'r');
     if (fid > -1)
         g = fscanf(fid, '%f');
         fclose(fid);

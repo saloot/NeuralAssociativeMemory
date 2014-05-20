@@ -51,8 +51,8 @@ neuron_ind = 1;
 
 
     
-addpath(genpath('/home1/amir/cluster/Common_Library'))
-addpath(genpath('/home1/amir/cluster/Neural_Network_Tomography'))
+%addpath(genpath('/home1/amir/cluster/Common_Library'))
+addpath(genpath('../../Neural_Network_Tomography'))
 
 %==========================================================================
 
@@ -63,7 +63,8 @@ for ensmeble_count = 0:ensemble_size-1
 %------------------------Read the Connectivity Graph-----------------------
 if FF_flag
     mode = 3;
-    params = [n_f,n_o,n_inp,p,synaptic_delay];
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay];
+    params{2} ='/Hesam/Academic/Network Tomography/Data'
 end
 G = read_graph(ensmeble_count,mode,params);
 g = G(:,neuron_ind);
@@ -72,15 +73,23 @@ g = G(:,neuron_ind);
 %------------------------Read the Recorded States--------------------------
 if FF_flag
     mode = 3;
-    params = [n_f,n_o,n_inp,p,synaptic_delay,T];
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T];
+    params{2} ='/Hesam/Academic/Network Tomography/Data'
 end
 
 S = read_spikes(ensmeble_count,params,mode);
-S = S';
+S_l1 = S{1};
+S_l2 = S{2};
+
+S_l1 = S_l1';
+S_l2 = S_l2';
 S_times = read_spikes_v2(ensmeble_count,params,mode);
 
-R_times = S_times{neuron_ind};
-R = S(:,neuron_ind)';
+S_times_l1 = S_times{1};
+S_times_l2 = S_times{2};
+
+R_times = S_times_l2{neuron_ind};
+R = S_l2(:,neuron_ind)';
 %--------------------------------------------------------------------------
 
 %==========================================================================

@@ -1,4 +1,4 @@
-function S = read_spikes(ensmeble_count,params,mode)    
+function S = read_spikes(ensmeble_count,params_in,mode)    
 
 %==============================INITIALIZATION==============================
 % ensmeble_count = 1;
@@ -46,23 +46,31 @@ elseif (mode == 2)
 
 elseif (mode == 3)
     %--------------Load the Spikes of the Feed-Forward Networks------------
-    
+    params = params_in{1}
     n_f = params(1);
     n_o = params(2);
     n_inp = params(3);
     p1 = params(4);
     delay_1 = params(5);
     T = params(6);
-    
+    file_path = params_in{2};
     file_name_ending = ['n_f_',num2str(n_f),'_n_o_',num2str(n_o),'_n_inp_',num2str(n_inp),'_p1_',num2str(p1),'_d_',num2str(delay_1),'_',num2str(ensmeble_count)];
     
-    fid = fopen(['../Neurons_data/spikes/S_times_',file_name_ending,'.txt'],'r');
+    fid = fopen([file_path,'/Spikes/S_times_l1_',file_name_ending,'.txt'],'r');
     if (fid > -1)
-        s = fscanf(fid, '%f',[1,inf]);        
+        s_l1 = fscanf(fid, '%f',[1,inf]);        
         fclose(fid);
     else
         error('Invalid input file')
     end
+    
+    fid = fopen([file_path,'/Spikes/S_times_l2_',file_name_ending,'.txt'],'r');
+    if (fid > -1)
+        s_l2 = fscanf(fid, '%f',[1,inf]);        
+        fclose(fid);
+    else
+        error('Invalid input file')
+    end    
     %----------------------------------------------------------------------
 else    
 
@@ -118,16 +126,31 @@ elseif (mode == 2)
 elseif (mode == 3)
     %-------------------All Spikesin a Feed-Forward Network----------------
     neuron_count = 1;
-    S = zeros(n_o,T);
-    l = length(s);
+    S_l1 = zeros(n_f,T);
+    S_l2 = zeros(n_o,T);
+
+    l = length(s_l1);
     for i = 1:l
-        if (s(i) == -1)
+        if (s_l1(i) == -1)
             neuron_count = neuron_count + 1;
         else
-            t = 1+floor(10000*s(i));
-            S(neuron_count,t) = 1;
+            t = 1+floor(10000*s_l1(i));
+            S_l1(neuron_count,t) = 1;
         end    
     end
+
+    l = length(s_l2);
+    for i = 1:l
+        if (s_l2(i) == -1)
+            neuron_count = neuron_count + 1;
+        else
+            t = 1+floor(10000*s_l2(i));
+            S_l2(neuron_count,t) = 1;
+        end    
+    end    
+
+    S{1} = S_l1;
+    S{2} = S_l2;
     %----------------------------------------------------------------------
 else
     error('Invalid spike mode!')
