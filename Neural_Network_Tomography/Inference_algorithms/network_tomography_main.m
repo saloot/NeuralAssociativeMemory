@@ -21,7 +21,7 @@ FF_flag = 1;                        % If 0, the second layer will have recurrent
 
 T = 20000;                          % Number of recorded samples
 if FF_flag
-    network_size = n_f
+    network_size = n_f;
 else
     network_size = n_exc + n_inh;
 end
@@ -51,9 +51,10 @@ neuron_ind = 1;
 
 
     
-%addpath(genpath('/home1/amir/cluster/Common_Library'))
+% addpath(genpath('/home1/amir/cluster/Common_Library'))
 addpath(genpath('../../Neural_Network_Tomography'))
 
+data_file_path = '../Data';
 %==========================================================================
 
 
@@ -64,7 +65,7 @@ for ensmeble_count = 0:ensemble_size-1
 if FF_flag
     mode = 3;
     params{1} = [n_f,n_o,n_inp,p,synaptic_delay];
-    params{2} ='/Hesam/Academic/Network Tomography/Data'
+    params{2} = data_file_path;
 end
 G = read_graph(ensmeble_count,mode,params);
 g = G(:,neuron_ind);
@@ -74,7 +75,7 @@ g = G(:,neuron_ind);
 if FF_flag
     mode = 3;
     params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T];
-    params{2} ='/Hesam/Academic/Network Tomography/Data'
+    params{2} = data_file_path;
 end
 
 S = read_spikes(ensmeble_count,params,mode);
@@ -96,8 +97,12 @@ R = S_l2(:,neuron_ind)';
 
 
 %=========================INFER THE CONNECTIONS============================    
-synaptic_delay = 10*synaptic_delay;
-W = infer_connection_fast(n_exc,n_inh,S_times,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+synaptic_delay = 10;
+if FF_flag
+    W = infer_connection_fast_feed_forward(n_f,n_o,S_times_l1,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+else
+    W = infer_connection_fast(n_exc,n_inh,S_times,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+end
 %==========================================================================
 
 
