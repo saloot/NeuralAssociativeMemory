@@ -16,7 +16,7 @@ n_inh = 80;                         % Number of ihibitory neurons in the network
 n_f = 800;                          % The number of neuron in the first layer of a feed-forward network
 n_inp = 800;                        % The number of neurons in the first layer of the feed-forward netwrok that will be stimulated
 n_o = n_exc + n_inh;                % The number of neurons in the second layer of the feed-forward network
-input_stim_freq = 500;              % The frequency of input poisson stimulus
+input_stim_freq = 800;              % The frequency of input poisson stimulus
 FF_flag = 1;                        % If 0, the second layer will have recurrent connections as well. Otherwise, we will only have feed-forward connections
 
 T = 10000;                          % Number of recorded samples
