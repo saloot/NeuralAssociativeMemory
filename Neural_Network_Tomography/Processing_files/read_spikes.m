@@ -53,8 +53,10 @@ elseif (mode == 3)
     p1 = params(4);
     delay_1 = params(5);
     T = params(6);
+    f = params(7);
+    
     file_path = params_in{2};
-    file_name_ending = ['n_f_',num2str(n_f),'_n_o_',num2str(n_o),'_n_inp_',num2str(n_inp),'_p1_',num2str(p1),'_d_',num2str(delay_1),'_',num2str(ensmeble_count)];
+    file_name_ending = ['n_f_',num2str(n_f),'_n_o_',num2str(n_o),'_n_inp_',num2str(n_inp),'_p1_',num2str(p1),'_f_',num2str(f),'_d_',num2str(delay_1),'_',num2str(ensmeble_count)];
     
     fid = fopen([file_path,'/Spikes/S_times_l1_',file_name_ending,'.txt'],'r');
     if (fid > -1)
@@ -139,6 +141,7 @@ elseif (mode == 3)
         end    
     end
 
+    neuron_count = 1;
     l = length(s_l2);
     for i = 1:l
         if (s_l2(i) == -1)
