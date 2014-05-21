@@ -16,10 +16,11 @@ n_inh = 80;                         % Number of ihibitory neurons in the network
 n_f = 800;                          % The number of neuron in the first layer of a feed-forward network
 n_inp = 800;                        % The number of neurons in the first layer of the feed-forward netwrok that will be stimulated
 n_o = n_exc + n_inh;                % The number of neurons in the second layer of the feed-forward network
+input_stim_freq = 500;              % The frequency of the input poisson stimulus in Hz
 
 FF_flag = 1;                        % If 0, the second layer will have recurrent connections as well. Otherwise, we will only have feed-forward connections
 
-T = 20000;                          % Number of recorded samples
+T = 10000;                          % Number of recorded samples
 if FF_flag
     network_size = n_f
 else
@@ -63,7 +64,7 @@ for ensmeble_count = 0:ensemble_size-1
 %------------------------Read the Connectivity Graph-----------------------
 if FF_flag
     mode = 3;
-    params{1} = [n_f,n_o,n_inp,p,synaptic_delay];
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,input_stim_freq];
     params{2} ='/Hesam/Academic/Network Tomography/Data'
 end
 G = read_graph(ensmeble_count,mode,params);
@@ -73,7 +74,7 @@ g = G(:,neuron_ind);
 %------------------------Read the Recorded States--------------------------
 if FF_flag
     mode = 3;
-    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T];
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T,input_stim_freq];
     params{2} ='/Hesam/Academic/Network Tomography/Data'
 end
 
