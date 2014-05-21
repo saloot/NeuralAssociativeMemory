@@ -16,13 +16,12 @@ n_inh = 80;                         % Number of ihibitory neurons in the network
 n_f = 800;                          % The number of neuron in the first layer of a feed-forward network
 n_inp = 800;                        % The number of neurons in the first layer of the feed-forward netwrok that will be stimulated
 n_o = n_exc + n_inh;                % The number of neurons in the second layer of the feed-forward network
-input_stim_freq = 500;              % The frequency of the input poisson stimulus in Hz
 
 FF_flag = 1;                        % If 0, the second layer will have recurrent connections as well. Otherwise, we will only have feed-forward connections
 
 T = 10000;                          % Number of recorded samples
 if FF_flag
-    network_size = n_f
+    network_size = n_f;
 else
     network_size = n_exc + n_inh;
 end
@@ -52,9 +51,10 @@ neuron_ind = 1;
 
 
     
-%addpath(genpath('/home1/amir/cluster/Common_Library'))
+% addpath(genpath('/home1/amir/cluster/Common_Library'))
 addpath(genpath('../../Neural_Network_Tomography'))
 
+data_file_path = '../Data';
 %==========================================================================
 
 
@@ -64,8 +64,13 @@ for ensmeble_count = 0:ensemble_size-1
 %------------------------Read the Connectivity Graph-----------------------
 if FF_flag
     mode = 3;
-    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,input_stim_freq];
+<<<<<<< HEAD
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay];
     params{2} ='/Hesam/Academic/Network Tomography/Data'
+=======
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay];
+    params{2} = data_file_path;
+>>>>>>> 29d47c3eceb6ea62a7e249c22928c76a57a3bd78
 end
 G = read_graph(ensmeble_count,mode,params);
 g = G(:,neuron_ind);
@@ -74,8 +79,13 @@ g = G(:,neuron_ind);
 %------------------------Read the Recorded States--------------------------
 if FF_flag
     mode = 3;
-    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T,input_stim_freq];
+<<<<<<< HEAD
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T];
     params{2} ='/Hesam/Academic/Network Tomography/Data'
+=======
+    params{1} = [n_f,n_o,n_inp,p,synaptic_delay,T];
+    params{2} = data_file_path;
+>>>>>>> 29d47c3eceb6ea62a7e249c22928c76a57a3bd78
 end
 
 S = read_spikes(ensmeble_count,params,mode);
@@ -97,8 +107,12 @@ R = S_l2(:,neuron_ind)';
 
 
 %=========================INFER THE CONNECTIONS============================    
-synaptic_delay = 10*synaptic_delay;
-W = infer_connection_fast(n_exc,n_inh,S_times,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+synaptic_delay = 10;
+if FF_flag
+    W = infer_connection_fast_feed_forward(n_f,n_o,S_times_l1,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+else
+    W = infer_connection_fast(n_exc,n_inh,S_times,R,R_times,T,weight_rule,tau_syn,B_LLR_flag,Delta,synaptic_delay);
+end
 %==========================================================================
 
 
