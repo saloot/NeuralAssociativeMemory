@@ -89,12 +89,12 @@ cd('..')
 %==========================================================================
 
 %==============================PLOT THE RESULTS============================
-plot(sort(processed_error_bits_BFO),sort(processed_BER_BFO),'k','LineWidth',2,'Color',[tanh(ll/length(N_in)),ll/length(N_in),1-(ll/length(N_in))]);    
+plot(sort(processed_error_bits_BFO),sort(processed_BER_BFO),'LineWidth',2,'Color','k');    
 hold on
-plot(sort(processed_error_bits_Jankowski_non_random),sort(processed_BER_Jankowski_non_random),'b-.','LineWidth',2,'Color','red');
-plot(sort(processed_error_bits_Jankowski_random),sort(processed_BER_Jankowski_random),'b-*','LineWidth',2,'Color','blue');
-plot(sort(processed_error_bits_Lee_non_random),sort(processed_BER_Lee_non_random),'r-.','LineWidth',2,'Color','red');
-plot(sort(processed_error_bits_Lee_random),sort(processed_BER_Lee_random),'r-*','LineWidth',2,'Color','blue');
+plot(sort(processed_error_bits_Jankowski_non_random),sort(processed_BER_Jankowski_non_random),'b-.','LineWidth',2);
+plot(sort(processed_error_bits_Jankowski_random),sort(processed_BER_Jankowski_random),'b-*','LineWidth',2);
+plot(sort(processed_error_bits_Lee_non_random),sort(processed_BER_Lee_non_random),'r-.','LineWidth',2);
+plot(sort(processed_error_bits_Lee_random),sort(processed_BER_Lee_random),'r-*','LineWidth',2);
 legend('Subspace patterns', 'Random patterns')
     
 xlhand = get(gca,'xlabel');            
