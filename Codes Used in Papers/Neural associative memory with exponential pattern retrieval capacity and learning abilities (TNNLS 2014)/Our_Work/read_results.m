@@ -39,8 +39,8 @@
 %--------------------------------------------------------------------------
 
 %-------------------------Simulation Variables-----------------------------
-if (~exist('initialization_done','var'))    % If already not initialized by the GUI..
-    K = 160;                            % Number of message bits
+if (~exist('initialization_done_by_master','var') && ~exist('initialization_done_by_main','var'))    % If already not initialized by the GUI..
+    K = 150;                            % Number of message bits
     N = 300;                            % Number of pattern neurons in the network
     Q = 8;                              % Number of quantization levels
     const_to_learn = 150;               % Number of contraints to learn over the patterns
@@ -55,15 +55,16 @@ if (~exist('initialization_done','var'))    % If already not initialized by the 
     alpha0 = 0.9;                       % The initial learning rate
     beta0 = 0.8;                        % The sparsity penalty
     nu = 0.025;                         % update threshold for the constraint neurons during the recall phase
-    index_max = 1;                      % This is the maximum number of random scenarios generated for simulation
-    
+    index_max = 1;                      % This is the maximum number of random scenarios generated for simulation    
 end
 %--------------------------------------------------------------------------
 
 warning off
 %%
 %--------------------------Other Variables---------------------------------
-plot_flag = 1;                              % If 1, tells the code to plot the results
+if (~exist('plot_flag','var'))
+    plot_flag = 1;                              % If 1, tells the code to plot the results
+end
 hist_x_axis_itr = [0:20:1000];              % This is bin places for total learning iterations histogram
 hist_x_axis_sparsity = [0:.05:1];           % This is bin places for total sparsity percentage
 
@@ -320,7 +321,7 @@ for ind = 1:0%index_max
 end    
 total_cost_avg = total_cost_avg/index_max;
         
-if (plot_flag)
+if (0)
     plot((total_cost_avg),'b--','LineWidth',2,'Color','b');
         
     title('MSE as a Function of Learning Iteration','fontsize',16);

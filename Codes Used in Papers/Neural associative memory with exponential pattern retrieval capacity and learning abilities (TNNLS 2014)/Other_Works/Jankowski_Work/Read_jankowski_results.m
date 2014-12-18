@@ -32,7 +32,7 @@
 
 %%
 %=============================INITIALIZATION===============================
-if (~exist('initialization_done','var'))    
+if (~exist('initialization_done_by_jankowski','var'))    
     N = 300;                                % N is the number of neurons in network.
     K = 150;                                % K is the number of message bits.
     z_max = 1;                              % This is the maximum value of message bits.
@@ -48,17 +48,6 @@ if (~exist('initialization_done','var'))
     a=clock;                                % Initialize the seed for random number generation with the clock value.
     RandStream.setDefaultStream(RandStream('mt19937ar','seed',sum(100*a))); 
 end
-
-figure_legend = [];                         % This variable will be field with the legend for the graphs
-hist_x_axis_itr = [0:20:1000];             % This is bin places for total learning iterations histogram
-hist_x_axis_sparsity = [0:.05:1];           % This is bin places for total sparsity percentage
-
-hist_x_itr = [];                            % This is output bin places produced BY the hist command for total learning iterations (to be used in bar plots)
-hist_x_sparsity = [];                       % This is output bin places produced BY the hist command for sparsity percentage (to be used in bar plots)
-
-hist_out_itr = [];                          % This is output values produced bY the hist command for total learning iterations (to be used in bar plots)
-hist_out_sparsity = [];                     % This is output values produced bY the hist command for sparsity percentage (to be used in bar plots)
-
 %==========================================================================
 
 %%

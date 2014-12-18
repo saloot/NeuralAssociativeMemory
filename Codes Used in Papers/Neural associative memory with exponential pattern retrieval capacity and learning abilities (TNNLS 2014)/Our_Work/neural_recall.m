@@ -38,10 +38,9 @@
 %%
 %=============================INITIALIZATION===============================
 
-if (~exist('initialization_done','var'))    % If already not initialized by the GUI..
+if (~exist('initialization_done_by_master','var'))    % If already not initialized by the GUI..
 
-    %------------------------Simulation Variables--------------------------
-    if (~exist('initialization_done','var'))    % If already not initialized by the GUI..
+    %------------------------Simulation Variables--------------------------    
     K = 150;                            % Number of message bits
     N = 300;                            % Number of pattern neurons in the network
     Q = 8;                              % Number of quantization levels
@@ -80,6 +79,7 @@ end
 if random_dataset_flag == 1
     fid = fopen(['./Initialization_Files/N_',num2str(N),'_K_',num2str(K),'/neural_journal_train_set_N_',num2str(N),'_K_',num2str(K),'_index_',num2str(index_in),'.mat'], 'r');                        % The path towards the dataset
     if (fid > -1 )
+        fclose(fid);
         load(['../Initialization_Files/N_',num2str(N),'_K_',num2str(K),'/neural_journal_train_set_N_',num2str(N),'_K_',num2str(K),'_index_',num2str(index_in),'.mat']);
     else    
         error('I can not find the learning dataset!');    

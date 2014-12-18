@@ -29,9 +29,9 @@
 
 
 %============================INITIALIZATIONS===============================
-if (~exist('initialization_done','var'))    
-    N = 160;                                % N is the number of neurons in network.
-    K = 80;                                 % K is the number of message bits.
+if (~exist('initialization_done_by_jankowski','var'))    
+    N = 300;                                % N is the number of neurons in network.
+    K = 150;                                % K is the number of message bits.
     z_max = 1;                              % This is the maximum value of message bits.
     z_min = 0;                              % This is the minimum value of message bits.
     index_max = 50;                         % This is the maximum number of random scenarios generated for simulation
@@ -56,6 +56,7 @@ for train_set_index = 1:index_max
     if random_flag == 0
         fid = fopen(['../../Initialization_Files/N_',num2str(N),'_K_',num2str(K),'/neural_journal_train_set_N_',num2str(N),'_K_',num2str(K),'_index_',num2str(train_set_index),'.mat'], 'r');                        % The path towards the dataset
         if (fid > -1 )
+            fclose(fid);
             load(['../../Initialization_Files/N_',num2str(N),'_K_',num2str(K),'/neural_journal_train_set_N_',num2str(N),'_K_',num2str(K),'_index_',num2str(train_set_index),'.mat']);
         else    
             error('I can not find the learning dataset!');    

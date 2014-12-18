@@ -36,12 +36,12 @@
 
 
 %============================INITIALIZATIONS===============================
-if (~exist('initialization_done','var'))    
+if (~exist('initialization_done_by_jankowski','var'))    
     N = 300;                                % N is the number of neurons in network.
     K = 150;                                % K is the number of message bits.    
     random_flag = 1;                        % Determines if patterns are drawn from a subspace or generated randomly
     no_of_patterns = 200;                   % The number of patterns in the dataset
-    no_of_simulated_instance = 500;         % The number of patterns that are going to be denoised during the recall phase
+    no_simulated_instance = 500;         % The number of patterns that are going to be denoised during the recall phase
     max_noise_amp = 1;                      % Maximum value of integer-valued noise added to each bit
     err_bits_range = [0:10];                % The number of bits that will be corrupted initially for the recall phase
 end
@@ -79,7 +79,7 @@ for train_set_index = 1:index_max
         bit_error_count = 0;
         pattern_error_count = 0;
         
-        for iji = 1:no_of_simulated_instance
+        for iji = 1:no_simulated_instance
             mu = 1 + floor(rand*no_of_patterns);
             p = dataset_learn(mu,:);     
         

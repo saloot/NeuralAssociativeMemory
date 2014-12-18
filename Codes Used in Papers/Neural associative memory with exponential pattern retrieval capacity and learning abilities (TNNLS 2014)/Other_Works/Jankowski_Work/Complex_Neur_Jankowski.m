@@ -40,24 +40,23 @@
 
 %%
 %=============================INITIALIZATION===============================
-if (~exist('initialization_done','var'))    
+if (~exist('initialization_done_by_compare','var'))    
     N = 300;                                % N is the number of neurons in network.
     K = 150;                                % K is the number of message bits.
     z_max = 1;                              % This is the maximum value of message bits.
     z_min = 0;                              % This is the minimum value of message bits.
     index_max = 50;                         % This is the maximum number of random scenarios generated for simulation
     random_flag = 1;                        % Determines if patterns are drawn from a subspace or generated randomly
-    no_of_patterns = 200;                   % The number of patterns in the dataset
-    no_of_simulated_instance = 500;         % The number of patterns that are going to be denoised during the recall phase
+    no_of_patterns = 200;                   % The number of patterns in the dataset    
     max_noise_amp = 1;                      % Maximum value of integer-valued noise added to each bit  
-    err_bits_range = [0:10];                % The number of bits that will be corrupted initially for the recall phase
-    addpath(genpath('../../Common_Library'));                          % Include the library of common functions in the search path
+    err_bits_range = [0:10];                % The number of bits that will be corrupted initially for the recall phase    
     
     a=clock;                                % Initialize the seed for random number generation with the clock value.
     RandStream.setDefaultStream(RandStream('mt19937ar','seed',sum(100*a)));
     plot_flag = 1;                          % Plot the graphs
 end
-initialization_done = 1;                    % Tell the other codes that the initialization has been done
+initialization_done_by_jankowski = 1;       % Tell the other codes that the initialization has been done
+addpath(genpath('../../Common_Library'));                          % Include the library of common functions in the search path
 %==========================================================================   
 
 %%
@@ -73,6 +72,8 @@ for l =1:index_max
         if (fid < 0)
             learn_flag = 0;
             break
+        else
+            fclose(fid);
         end
     else
         fid = fopen(['../../Learn_Results/Jankowski/N_',num2str(N)...
@@ -80,6 +81,8 @@ for l =1:index_max
         if (fid < 0)
             learn_flag = 0;
             break
+        else
+            fclose(fid);
         end
     end
 end
@@ -124,7 +127,7 @@ end
 
 %%
 %===========================READ RECALL RESULTS============================
-run read_jankowski_results
+run Read_jankowski_results
 %==========================================================================
 end
 
@@ -140,6 +143,6 @@ if plot_flag
     ylhand = get(gca,'ylabel');            
     set(xlhand,'string','e','fontsize',30)            
     set(ylhand,'string','Final BER','fontsize',30)
-    title("Jankowski's work")
+    title('Jankowski''s work')
 end
 %==========================================================================

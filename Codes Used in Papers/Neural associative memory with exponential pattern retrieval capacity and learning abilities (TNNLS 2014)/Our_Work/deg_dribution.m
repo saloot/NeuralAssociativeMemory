@@ -44,7 +44,7 @@ ensemble_count = 0;
 for index_in = 1:ensemble_size
     
     %----------------Read the Weight Matrix of the Graph-------------------
-    fid = fopen(['./Learn_Results/N_',num2str(N),'_K_',num2str(K),'/W_alpha_',num2str(alpha0),'_theta_',num2str(theta0),'_index_',num2str(index_in),'.txt'], 'r');
+    fid = fopen(['../Learn_Results/N_',num2str(N),'_K_',num2str(K),'/W_alpha_',num2str(alpha0),'_theta_',num2str(theta0),'_index_',num2str(index_in),'.txt'], 'r');
     if (fid == -1)
         111;
         continue;

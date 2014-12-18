@@ -16,7 +16,7 @@
 %%
 %=============================INITIALIZATION===============================
 
-if (~exist('initialization_done','var'))    % If already not initialized by the GUI..
+if (~exist('initialization_done_by_main','var'))    % If already not initialized by the GUI..
     %-------------------------Network Parameters---------------------------
     N = 1600;                               % N is the number of neurons in network.
     K = 800;                                % K is the number of message bits.
@@ -45,6 +45,8 @@ if (~exist('initialization_done','var'))    % If already not initialized by the 
     a=clock;                                                                % Initialize the seed for random number generation with the clock value.
     RandStream.setGlobalStream(RandStream('mt19937ar','seed',sum(100*a))); 
     %----------------------------------------------------------------------
+    
+    initialization_done_by_master = 1;
 
 end
 %==========================================================================
